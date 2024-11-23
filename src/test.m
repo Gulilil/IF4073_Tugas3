@@ -2,6 +2,7 @@ addpath("img_test\")
 addpath("src\image_input\")
 addpath("src\utils\")
 addpath("src\edge_detection\")
+addpath("src\matrix\")
 
 % Pilih dan load program
 filename = select_image();
