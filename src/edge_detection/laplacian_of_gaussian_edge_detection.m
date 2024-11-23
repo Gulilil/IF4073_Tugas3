@@ -1,0 +1,1 @@
+function image_edge_detection = laplacian_of_gaussian_edge_detection(img)
