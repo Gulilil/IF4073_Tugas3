@@ -1,11 +1,8 @@
-function image_edge_detection = sobel_edge_detection(img)
+function image_edge_detection = sobel_edge_detection(img, multiplier_scale)
     % Konversi Image ke Grayscale jika diperlukan
     if size(img, 3) == 3
         img = rgb2gray(img);
     end
-
-    % Input pengali kernel
-    multiplier_scale = input('Masukkan nilai skala pengali kernel (Contoh 1 untuk kernel Sobel): ');
     
     % Mendeteksi tepi menggunakan metode Sobel
     SobelX = [-1, 0, 1; -2, 0, 2; -1, 0, 1];  % Sobel kernel untuk arah X
