@@ -1,8 +1,8 @@
 function image_edge_detection = laplacian_of_gaussian_edge_detection(img, nMask, sigma)
     addpath("src\matrix\");
     % Konversi Image ke Grayscale jika diperlukan
-    if ndims(img) == 3
-        img = rgb2gray(img); % Convert to grayscale
+    if size(img, 3) == 3
+        img = rgb2gray(img);
     end
     
     % Konversi Image ke Double
@@ -18,8 +18,5 @@ function image_edge_detection = laplacian_of_gaussian_edge_detection(img, nMask,
     log_kernel = log_convolution(gaussian_mask, laplacian_kernel);
 
     % Apply LoG kernel to the image
-    filtered_img = log_convolution(img, log_kernel);
-
-    % Detect edges by thresholding the zero-crossings
-    image_edge_detection = zero_crossing_detection(filtered_img);
+    image_edge_detection = log_convolution(img, log_kernel);
 end

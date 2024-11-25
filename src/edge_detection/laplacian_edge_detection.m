@@ -1,7 +1,9 @@
 function image_edge_detection = laplacian_edge_detection(img, nKernel)
     addpath("src\matrix\");
     % Konversi Image ke Double
-    img = double(img);
+    if size(img, 3) == 3
+        img = rgb2gray(img);
+    end
     
     % Generate Laplacian kernel
     laplacian_kernel = generate_laplacian_kernel(double(nKernel));
