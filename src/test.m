@@ -1,10 +1,9 @@
 addpath("img_test\")
 addpath("src\image_input\")
-addpath("src\utils\")
 addpath("src\edge_detection\")
 addpath("src\matrix\")
 
-% Pilih dan load program
+% Pilih dan load program, 'same'
 filename = select_image();
 img = read_image(filename);
 
@@ -31,17 +30,17 @@ fprintf("\n")
 
 % Deteksi tepi berdasarkan metode input
 if method == 1
-    image_edge_detection = laplacian_edge_detection(img, 3);
+    image_edge_detection = edge_detection(img, "Laplacian");
 elseif method == 2
-    image_edge_detection = laplacian_of_gaussian_edge_detection(img, 3, 0.4);
+    image_edge_detection = edge_detection(img, "LoG");
 elseif method == 3
-    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Sobel");
+    image_edge_detection = edge_detection(img, "Sobel");
 elseif method == 4
-    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Prewitt");
+    image_edge_detection = edge_detection(img, "Prewitt");
 elseif method == 5
-    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Roberts");
+    image_edge_detection = edge_detection(img, "Roberts");
 elseif method == 6
-    image_edge_detection = canny_edge_detection(img);
+    image_edge_detection = edge_detection(img, "Canny");
 end
 
 % Menampilkan hasil sebelum dan sesudah deteksi tepi
