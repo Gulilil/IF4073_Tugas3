@@ -1,18 +1,18 @@
-function laplacian_kernel = generate_laplacian_kernel(nKernel)
+function laplacian_kernel = generate_laplacian_kernel(nKernel, laplacian_kernel_str)
     % Check apakah kernel valid
     validKernel = false;
     
     while ~validKernel
         % Minta input dari pengguna untuk kernel Laplacian
-        disp(['Masukkan matriks Laplacian kernel berukuran ', num2str(nKernel), 'x', num2str(nKernel)]);
+        % disp(['Masukkan matriks Laplacian kernel berukuran ', num2str(nKernel), 'x', num2str(nKernel)]);
 
-        % Informasi terkait matriks kernel Laplacian
-        fprintf('Syarat Matriks Laplacian:\n')
-        fprintf('1. Matriks kernel harus simetris\n');
-        fprintf('2. Jumlah elemen dalam kernel harus nol\n');
+        % % Informasi terkait matriks kernel Laplacian
+        % fprintf('Syarat Matriks Laplacian:\n')
+        % fprintf('1. Matriks kernel harus simetris\n');
+        % fprintf('2. Jumlah elemen dalam kernel harus nol\n');
         
-        % Input kernel dalam bentuk string
-        laplacian_kernel_str = input('Masukkan matriks kernel: ', 's');
+        % % Input kernel dalam bentuk string
+        % laplacian_kernel_str = input('Masukkan matriks kernel: ', 's');
         
         % Konversi input string ke dalam bentuk numerik
         laplacian_kernel = str2num(laplacian_kernel_str);
