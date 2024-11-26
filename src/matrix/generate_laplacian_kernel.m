@@ -1,4 +1,4 @@
-function laplacian_kernel = laplacian_kernel_input(nKernel)
+function laplacian_kernel = generate_laplacian_kernel(nKernel)
     % Check apakah kernel valid
     validKernel = false;
     

@@ -1,22 +1,19 @@
 function image_edge_detection = laplacian_of_gaussian_edge_detection(img, nMask, sigma)
     addpath("src\matrix\");
-    % Konversi Image ke Grayscale jika diperlukan
+    % Konversi Image ke Grayscale
     if size(img, 3) == 3
         img = rgb2gray(img);
     end
     
-    % Konversi Image ke Double
-    img = double(img);
-    
-    % Generate Gaussian matrix
+    % Membuat Gaussian Matrix
     gaussian_mask = generate_gaussian_matrix(nMask, sigma);
 
-    % Generate Laplacian kernel
+    % Membuat Laplacian Kernel
     laplacian_kernel = generate_laplacian_kernel(double(nMask));
 
-    % Combine Gaussian and Laplacian to create LoG kernel
+    % Konvolusi antara Gaussian and Laplacian untuk membuat LoG kernel
     log_kernel = log_convolution(gaussian_mask, laplacian_kernel);
 
-    % Apply LoG kernel to the image
+    % Konvolusi LoG Kernel dengan gambar 
     image_edge_detection = log_convolution(img, log_kernel);
 end

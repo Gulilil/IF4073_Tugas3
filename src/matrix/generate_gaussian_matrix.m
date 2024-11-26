@@ -1,6 +1,6 @@
 function [mask_mat] = generate_gaussian_matrix(nMask, sigma)
-    % Generate n x n Gaussian matrix (kernel) dengan standard deviation sigma
-    % sigma: standard deviation for the Gaussian function
+    % Membuat n x n Gaussian matrix (kernel) dengan standard deviation sigma
+    % sigma: standard deviation untuk fungsi Gaussian
     
     % Membuat grid of (x, y) koordinat dengan center di (0, 0)
     half_size = (nMask - 1) / 2;
