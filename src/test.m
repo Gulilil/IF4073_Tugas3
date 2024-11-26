@@ -30,17 +30,17 @@ fprintf("\n")
 
 % Deteksi tepi berdasarkan metode input
 if method == 1
-    image_edge_detection = edge_detection(img, "Laplacian");
+    image_edge_detection = laplacian_edge_detection(img, 3);
 elseif method == 2
-    image_edge_detection = edge_detection(img, "LoG");
+    image_edge_detection = laplacian_of_gaussian_edge_detection(img, 3, 0.4);
 elseif method == 3
-    image_edge_detection = edge_detection(img, "Sobel");
+    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Sobel", 1);
 elseif method == 4
-    image_edge_detection = edge_detection(img, "Prewitt");
+    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Prewitt", 1);
 elseif method == 5
-    image_edge_detection = edge_detection(img, "Roberts");
+    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Roberts", 1);
 elseif method == 6
-    image_edge_detection = edge_detection(img, "Canny");
+    image_edge_detection = canny_edge_detection(img);
 end
 
 % Menampilkan hasil sebelum dan sesudah deteksi tepi
