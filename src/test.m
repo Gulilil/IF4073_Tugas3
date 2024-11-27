@@ -36,19 +36,26 @@ elseif method == 2
 elseif method == 3
     image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Sobel", 1);
 elseif method == 4
-    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Prewitt", 1);
+    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Prewitt", 7);
 elseif method == 5
-    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Roberts", 1);
+    image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Roberts", 5);
 elseif method == 6
     image_edge_detection = canny_edge_detection(img);
 end
 
+% Melakukan segmentasi objek berdasarkan hasil deteksi tepi
+[image_segmentation_result, method] = object_find_segmentation(img, image_edge_detection);
+
 % Menampilkan hasil sebelum dan sesudah deteksi tepi
 figure;
-subplot(1, 2, 1);
+subplot(1, 3, 1);
 imshow(img);
 title("Gambar Asli");
 
-subplot(1, 2, 2);
+subplot(1, 3, 2);
 imshow(image_edge_detection);
 title("Gambar Hasil Deteksi Tepi");
+
+subplot(1, 3, 3);
+imshow(image_segmentation_result);
+title("Gambar Hasil Segmentasi Objek dengan " + method);
