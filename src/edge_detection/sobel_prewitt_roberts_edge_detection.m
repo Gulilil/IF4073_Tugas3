@@ -5,13 +5,13 @@ function image_edge_detection = sobel_prewitt_roberts_edge_detection(img, type, 
     end
     
     % Mendeteksi tepi menggunakan pilihan metode
-    if type == "Sobel"
+    if upper(type) == "SOBEL"
         MatrixX = [-1, 0, 1; -2, 0, 2; -1, 0, 1];  % Sobel kernel untuk arah X
         MatrixY = [-1, -2, -1; 0, 0, 0; 1, 2, 1];  % Sobel kernel untuk arah Y
-    elseif type == "Prewitt"
+    elseif upper(type) == "PREWITT"
         MatrixX = [-1, 0, 1; -1, 0, 1; -1, 0, 1];  % Prewitt kernel untuk arah X
         MatrixY = [-1, -1, -1; 0, 0, 0; 1, 1, 1];  % Prewitt kernel untuk arah Y
-    elseif type == "Roberts"
+    elseif upper(type) == "ROBERTS"
         MatrixX = [1, 0; 0, -1];  % Roberts kernel untuk arah X
         MatrixY = [0, 1; -1, 0];  % Roberts kernel untuk arah Y
     else
