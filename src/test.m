@@ -30,9 +30,9 @@ fprintf("\n")
 
 % Deteksi tepi berdasarkan metode input
 if method == 1
-    image_edge_detection = laplacian_edge_detection(img, 3);
+    image_edge_detection = laplacian_edge_detection(img, 3, "[0 1 0; 1 -4 1; 0 1 0]");
 elseif method == 2
-    image_edge_detection = laplacian_of_gaussian_edge_detection(img, 3, 0.4);
+    image_edge_detection = laplacian_of_gaussian_edge_detection(img, 3, 0.4, "[0 1 0; 1 -4 1; 0 1 0]");
 elseif method == 3
     image_edge_detection = sobel_prewitt_roberts_edge_detection(img, "Sobel", 1);
 elseif method == 4

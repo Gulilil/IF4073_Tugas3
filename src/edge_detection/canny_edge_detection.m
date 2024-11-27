@@ -6,3 +6,6 @@ function image_edge_detection = canny_edge_detection(img)
 
     % Mendeteksi tepi menggunakan pilihan metode
     image_edge_detection = edge(img, 'canny');
+
+    % Change to double
+    image_edge_detection = double(image_edge_detection);
