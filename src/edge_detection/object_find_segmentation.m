@@ -10,6 +10,7 @@ function image_segmentation_result = object_find_segmentation(img, image_edge_de
 
     % Segmentasi objek berdasarkan metode yang dipilih
     if segmentation_method == "Morphological"
+        % Morphological operation
         cleaned_edges = imclose(binarize_result, strel('disk', radius));
 
         % Connected Component Analysis
