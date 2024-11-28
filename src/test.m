@@ -44,7 +44,7 @@ elseif method == 6
 end
 
 % Melakukan segmentasi objek berdasarkan hasil deteksi tepi
-[image_segmentation_result, method] = object_find_segmentation(img, image_edge_detection);
+image_segmentation_result = object_find_segmentation(img, image_edge_detection, "Otsu", "Morphological", 5, 100);
 
 % Menampilkan hasil sebelum dan sesudah deteksi tepi
 figure;
