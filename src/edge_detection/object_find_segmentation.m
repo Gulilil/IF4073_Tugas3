@@ -35,8 +35,9 @@ function image_segmentation_result = object_find_segmentation(img, image_edge_de
 
     % Segmentasi objek berdasarkan metode yang dipilih
     if segmentation_method == "Morphological"
+        % radius = input("Masukkan radius untuk operasi closing pixel: ");
         % Morphological operation
-        cleaned_edges = imclose(binarize_result, strel('disk', 5));
+        cleaned_edges = imclose(binarize_result, strel('disk', radius));
 
         % Connected Component Analysis
         [labeled_objects, ~] = bwlabel(cleaned_edges);
