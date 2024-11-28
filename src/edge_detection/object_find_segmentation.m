@@ -56,18 +56,9 @@ function [image_segmentation_result, method] = object_find_segmentation(img, ima
         subplot(1, 3, 3);
         imshow(label2rgb(labeled_objects, 'jet', 'k'));
         title(['Segmented Objects: ', num2str(num_objects)]);
-
-        if binerization_method == 2
-            % Mengidentifikasi region terbesar
-            stats = regionprops(labeled_objects, 'Area', 'PixelIdxList');
-            [~, largest_idx] = max([stats.Area]); % Menemukan index region terbesar
         
-            % Membuat mask untuk region terbesar
-            largest_region_mask = false(size(labeled_objects));
-            largest_region_mask(stats(largest_idx).PixelIdxList) = true;
-        else
-            largest_region_mask = labeled_objects;
-        end
+        % Hasil akhir segmentasi objek
+        largest_region_mask = labeled_objects;
     elseif segmentation_method == 2
         radius = input("Masukkan radius untuk operasi closing dan opening pixel: ");
         min_pixel_area = input("Masukkan luas minimum pixel untuk penghilangan region kecil: ");
