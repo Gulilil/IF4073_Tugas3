@@ -1,37 +1,42 @@
-function [edge_detected_image, parameter_domain_image, shape_detected_image] = line_detection(img)
-    addpath("src\edge_detection\");
+function [edge_detected_image, parameter_domain_image, inversed_detected_image, shape_detected_image] = line_detection(img, detection_threshold, input_num1, input_num2, input_text, input_type)
     
-    % edge_detected_image = sobel_prewitt_roberts_edge_detection(img, "sobel", 1);
-    edge_detected_image = canny_edge_detection(img);
-    
-    % adjust edge detected image
-    threshold = 0.25;
-    if max(edge_detected_image(:)) > 1  % If the image has values greater than 1
-        edge_detected_image = (double(edge_detected_image) / 255) >= threshold; % Scale to [0, 1] and make in binary
-    else
-        edge_detected_image = edge_detected_image; % Leave it as it is
+    % Adjusting to desired edge detection method
+    if (input_type == "Laplace")
+        edge_detected_image = laplacian_edge_detection(img, input_num1, input_text);
+    elseif(input_type == "LoG")
+        edge_detected_image = laplacian_of_gaussian_edge_detection(img, input_num1, input_num2, input_text);
+    elseif(input_type == "Sobel" || input_type == "Prewitt" || input_type == "Roberts")
+        edge_detected_image = sobel_prewitt_roberts_edge_detection(img, input_type, input_num1);
+    else % input_type == "Canny"
+        edge_detected_image = canny_edge_detection(img);
     end
     
-    range = 256;
-    accumulator = zeros(range, range);
-    [rows, cols, n_channel] = size(edge_detected_image);
-        
-    R_TO_D = 0.017453;
-    sqrt_val = sqrt(double(rows * rows) + double(cols * cols));
+    % Adjust edge detected image
+    if max(edge_detected_image(:)) > 1  % If the image has values greater than 1
+        threshold = 0.25;
+        edge_detected_image = (double(edge_detected_image) / 255) >= threshold; % Scale to [0, 1] and make in binary
+    end
+    
+    [rows, cols, ~] = size(edge_detected_image);
+    sqrt_val = round(sqrt(double(rows * rows) + double(cols * cols)));
+
+    rRange = -sqrt_val:1:sqrt_val; % Range of rho values
+    thetaRange = -90:1:89; % Range of theta values (in degrees)
+    accumulator = zeros(length(thetaRange), length(rRange));
+
     for i = 1:rows
         for j = 1:cols
             if (edge_detected_image(i, j) == 1)
-                for a_idx = 1:range
-                    theta = double(a_idx) * 360 / range  * R_TO_D;
+                for theta_idx = 1:length(thetaRange)
+                    theta = deg2rad(thetaRange(theta_idx));
                     r = i * cos(theta) + j * sin(theta);
-                    r = r + sqrt_val;
-                    r = r / (sqrt_val * 2.0);
-                    r = r * (i-1);
-                    r = r + 0.5;
-                    r = floor(r);
-                    % fprintf("%d %d %d\n", a_idx, theta, r);
-                    if (r > 0 && r <= range)
-                        accumulator(a_idx, r) = accumulator(a_idx, r) + 1;
+                    % r = r + sqrt_val;
+                    % r = r / (sqrt_val * 2.0);
+                    % r = r * (rows-1);
+                    % r = r + 0.5;
+                    r_idx = round(r + sqrt_val);
+                    if r_idx > 0 && r_idx <= length(rRange)
+                        accumulator(theta_idx, r_idx) = accumulator(theta_idx, r_idx) + 1;
                     end
                 end
             end
@@ -39,13 +44,63 @@ function [edge_detected_image, parameter_domain_image, shape_detected_image] = l
     end
     
     % Accumulator to display
-    accumulator = double(accumulator) / max(accumulator(:));
-    disp(accumulator);
-    % imshow(accumulator);
+    parameter_domain_image = double(accumulator) / max(accumulator(:));
+    % imshow(parameter_domain_image);
+    
+    selected_parameter_domain_image = parameter_domain_image >= str2double(detection_threshold);
+    % imshow(selected_parameter_domain_image);
+    
+    inversed_detected_image = zeros(rows, cols);
+    % Inverse 
+    for theta_idx = 1:length(thetaRange)
+        for r_idx = 1:length(rRange)
+            if (selected_parameter_domain_image(theta_idx, r_idx) == 1)
+                theta = deg2rad(thetaRange(theta_idx));
+                r = rRange(r_idx);
+                % r = r * 2.0 * sqrt_val / (rows-1) - sqrt_val;
+                y = 0;
+                for x = 1:rows
+                    if (sin(theta) ~= 0)
+                        y = (r - x * cos(theta)) / sin(theta);
+                    else
+                        y = y + 1;
+                    end
+                    % fprintf("%d %d %d\n", theta, x, y);
+                    % y = y + 0.5;
+                    y = round(y);
+                    if (y >1 && y <= cols)
+                        inversed_detected_image(x, y) = inversed_detected_image(x, y) + 1;
+                    end
+                end
+            end
+        end
+    end
+    
+    % Make RGB format
+    if (size(edge_detected_image, 3) == 1)
+        grayImage = double(edge_detected_image) * 255;
+        edge_detected_image = repmat(im2double(grayImage), [1, 1, 3]);
+    end
+    if (size(parameter_domain_image, 3) == 1)
+        grayImage = double(parameter_domain_image) * 255;
+        parameter_domain_image = repmat(im2double(grayImage), [1, 1, 3]);
+    end
+    if (size(inversed_detected_image, 3) == 1)
+        grayImage = double(inversed_detected_image) * 255;
+        inversed_detected_image = repmat(im2double(grayImage), [1, 1, 3]);
+    end
 
-
-    parameter_domain_image = [];
-    shape_detected_image = [];
-
+    shape_detected_image = img;
+    for r = 1 : rows
+        for c = 1 : cols
+            if (inversed_detected_image(r, c, 1) == 255)
+                % Make Red for shape detected pixels
+                shape_detected_image(r, c, 1) = 255;
+                shape_detected_image(r, c, 2) = 0;
+                shape_detected_image(r, c, 3) = 0;
+                % fprintf("%d, %d, %d\n", shape_detected_image(r,c,1), shape_detected_image(r,c,2), shape_detected_image(r,c,3));
+            end
+        end
+    end
 end
 
