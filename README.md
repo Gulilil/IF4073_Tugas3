@@ -56,12 +56,24 @@ Langkah-langkah proses setup program adalah sebagai berikut:
     <tr>
         <td>1.</td>
         <td>Jason Rivalino</td>
-        <td>Pengerjaan segmentasi citra dengan deteksi tepi menggunakan metode Laplace, LoG, Sobel, Prewitt, Roberts, dan Canny</td>
+        <td>
+          <ul>
+          <li> Pengerjaan algoritma deteksi tepi menggunakan metode Laplace, LoG, Sobel, Prewitt, Roberts, dan Canny
+          <li> Pengerjaan segmentasi citra dengan metode binarisasi Otsu dan Adaptive dan metode segmentasi objek Morphological dan Border Clearing 
+          </ul>
+        </td>
     </tr>
     <tr>
         <td>2.</td>
         <td>Juan Christopher Santoso</td>
-        <td>Pengerjaan pendeteksian garis lurus di dalam citra dengan Transformasi Hough</td>
+        <td>
+        <ul>
+        <li> Pengerjaan pendeteksian garis lurus di dalam citra dengan Transformasi Hough 
+        <li> Pengerjaan dan Pembuatan GUI
+        <li> Intergrasi kode dengan GUI
+        <li> [BONUS] Pengerjaan pendeteksi lingkaran di dalam citra dengan Transformasi Hough
+        </ul>
+        </td>
     </tr>
 </table>
 

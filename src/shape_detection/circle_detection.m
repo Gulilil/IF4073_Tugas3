@@ -45,16 +45,10 @@ function [edge_detected_image, parameter_domain_image, inversed_detected_image, 
     
     % Accumulator to display
     parameter_domain_image = double(inverse_detected_image) / max(inverse_detected_image(:));
-    % imshow(parameter_domain_image);
+    selected_parameter_domain_image = parameter_domain_image >= str2double(detection_threshold);
     
-    if (isstring(detection_threshold))
-        detection_threshold = str2double(detection_threshold);
-    end
-    selected_parameter_domain_image = parameter_domain_image >= detection_threshold;
-    % imshow(selected_parameter_domain_image);
-    
-    inversed_detected_image = zeros(rows, cols);
     % Inverse 
+    inversed_detected_image = zeros(rows, cols);
     for a = 1:rows
         for b = 1:cols
             if (selected_parameter_domain_image(a, b) == 1)
@@ -106,7 +100,6 @@ function [edge_detected_image, parameter_domain_image, inversed_detected_image, 
                 shape_detected_image(r, c, 1) = 255;
                 shape_detected_image(r, c, 2) = 0;
                 shape_detected_image(r, c, 3) = 0;
-                % fprintf("%d, %d, %d\n", shape_detected_image(r,c,1), shape_detected_image(r,c,2), shape_detected_image(r,c,3));
             end
         end
     end
